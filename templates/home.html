@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Home - SalesPro</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding-top: 70px;
+      scroll-behavior: smooth;
+    }
+
+    .navbar {
+      background-color: #001F5B;
+    }
+
+    .navbar-brand, .nav-link {
+      color: #fff !important;
+      font-weight: 500;
+    }
+
+
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      margin-top: 20px;
+    }
+
+    .hero .btn {
+      margin-top: 30px;
+      padding: 12px 30px;
+      font-size: 1rem;
+    }
+
+    .section-title {
+      text-align: center;
+      font-weight: 600;
+      font-size: 2rem;
+      margin-bottom: 40px;
+      color: #001F5B;
+    }
+
+    .services {
+      background: #f4f6f9;
+      padding: 60px 0;
+    }
+
+    .service-card {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .service-card img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      margin-bottom: 20px;
+    }
+
+    .service-card h5 {
+      font-weight: 600;
+      color: #003580;
+    }
+
+    .cta {
+      background: #001F5B;
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .cta h2 {
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .cta p {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+    }
+
+    .footer {
+      background: #f4f6f9;
+      padding: 40px 0;
+      text-align: center;
+      color: #333;
+    }
+
+    .footer h5 {
+      margin-bottom: 10px;
+    }
+
+    .footer a {
+      margin: 0 10px;
+      color: #003580;
+      font-size: 1.2rem;
+    }
+
+    .chatbot-hint {
+      position: fixed;
+      bottom: 80px;
+      right: 90px;
+      background: #004080;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 14px;
+      animation: floatMsg 3s infinite alternate;
+    }
+
+    @keyframes floatMsg {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-8px); }
+    }
+
+    #chatbot {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      height: 400px;
+      background: white;
+      border: 2px solid #004080;
+      border-radius: 10px;
+      overflow: hidden;
+      display: none;
+      z-index: 999;
+    }
+
+    #chatbot-header {
+      background: #004080;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
+
+    #chatbot-messages {
+      height: 300px;
+      overflow-y: auto;
+      padding: 10px;
+    }
+
+    #chatbot-input {
+      display: flex;
+    }
+
+    #chatbot-input input {
+      flex: 1;
+      border: none;
+      padding: 10px;
+    }
+
+    #chatbot-input button {
+      background: #004080;
+      color: white;
+      border: none;
+      padding: 10px;
+    }
+
+    #chatbot-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #004080;
+      color: white;
+      border-radius: 50%;
+      border: none;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">SalesPro</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+      <span class="navbar-toggler-icon" style="color:white;"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('predict') }}">Prediction</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">About Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('profile') }}">My Profile</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero text-white d-flex align-items-center">
+  <div class="container text-center">
+    <h1 class="display-4 fw-bold">Revolutionize Your Regional Sales Strategy</h1>
+    <p class="lead">Unlock powerful insights and predictive data to scale smarter.</p>
+    <a href="{{ url_for('predict') }}" class="btn btn-warning btn-lg mt-3">Try Now</a>
+  </div>
+</section>
+
+<!-- Services Section -->
+<section class="services">
+  <div class="container">
+    <h2 class="section-title">Our Key Features</h2>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="service-card">
+          <img src="{{ url_for('static', filename='images/state1.jpg') }}" alt="States">
+          <h5>State-Level Analytics</h5>
+          <p>Make informed decisions with state-wise reports and visualizations.</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="service-card">
+          <img src="{{ url_for('static', filename='images/District.jpg') }}" alt="District">
+          <h5>District Forecasts</h5>
+          <p>Gain deep insights into district-level data and projections.</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="service-card">
+          <img src="{{ url_for('static', filename='images/Cities.jpg') }}" alt="City">
+          <h5>City Trends</h5>
+          <p>Optimize strategies based on city-specific performance trends.</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="service-card">
+          <img src="{{ url_for('static', filename='images/Ai_image.jpg') }}" alt="AI">
+          <h5>AI-Powered Predictions</h5>
+          <p>Use machine learning to enhance forecasting and decision-making.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta">
+  <div class="container">
+    <h2>Empowering One Nation with One Data</h2>
+    <p>Discover how data is changing the way India sells, forecasts, and grows.</p>
+    <a href="{{ url_for('about') }}" class="btn btn-light">Learn More</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <h5>Connect with Us</h5>
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-telegram"></i></a>
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
+    </div>
+    <p class="mt-3">&copy; 2025 SalesPro. Crafted with data, built for results.</p>
+  </div>
+</footer>
+
+<!-- Chatbot Hint & Toggle Button -->
+<div class="chatbot-hint">💬 Ask anything...</div>
+<button id="chatbot-toggle">💬</button>
+
+<!-- Chatbot Box -->
+<div id="chatbot">
+  <div id="chatbot-header">SalesBot</div>
+  <div id="chatbot-messages"></div>
+  <div id="chatbot-input">
+    <input type="text" id="userInput" placeholder="Ask your question..." />
+    <button id="sendBtn">Send</button>
+  </div>
+</div>
+
+
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+<script>
+  const chatbot = document.getElementById('chatbot');
+  const toggleBtn = document.getElementById('chatbot-toggle');
+  const input = document.getElementById("userInput");
+  const messages = document.getElementById("chatbot-messages");
+  const sendBtn = document.getElementById("sendBtn");
+
+  toggleBtn.onclick = () => {
+    chatbot.style.display = chatbot.style.display === "none" ? "block" : "none";
+  };
+
+  sendBtn.onclick = async () => {
+    const userText = input.value.trim();
+    if (!userText) return;
+
+    messages.innerHTML += `<div><strong>You:</strong> ${userText}</div>`;
+    messages.innerHTML += `<div><em>SalesBot is typing...</em></div>`;
+    messages.scrollTop = messages.scrollHeight;
+    input.value = "";
+
+    try {
+      const response = await fetch('/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userText })
+      });
+
+      const data = await response.json();
+      messages.innerHTML = messages.innerHTML.replace(`<em>SalesBot is typing...</em>`, `<div><strong>SalesBot:</strong> ${data.reply}</div>`);
+      messages.scrollTop = messages.scrollHeight;
+    } catch (error) {
+      messages.innerHTML += `<div><strong>SalesBot:</strong> Sorry, I couldn't get a response.</div>`;
+    }
+  };
+</script>
+
+
+</body>
+</html>

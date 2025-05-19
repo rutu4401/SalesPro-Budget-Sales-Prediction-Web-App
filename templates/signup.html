@@ -1,0 +1,103 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - SalesPro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #002F4B, #00587A);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .form-container {
+      background-color: #ffffff;
+      color: #333;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 440px;
+      text-align: center;
+    }
+
+    .form-title {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #00587A;
+    }
+
+    .form input[type="text"],
+    .form input[type="email"],
+    .form input[type="password"] {
+      width: 100%;
+      padding: 12px 16px;
+      margin: 10px 0 20px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .form input:focus {
+      border-color: #007BFF;
+      outline: none;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .form p {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .form a {
+      color: #007BFF;
+      text-decoration: none;
+    }
+
+    .form a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      .form-container {
+        padding: 20px;
+        margin: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2 class="form-title">Create Your SalesPro Account</h2>
+    <form class="form" action="/signup" method="post">
+      <input type="text" name="username" placeholder="Username" required />
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit" class="btn">Sign Up</button>
+      <p>Already have an account? <a href="/login">Login</a></p>
+    </form>
+  </div>
+</body>
+</html>

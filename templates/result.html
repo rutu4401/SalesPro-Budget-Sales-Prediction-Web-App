@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction Results</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Fonts and Bootstrap -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #f2f6ff, #ffffff);
+            margin: 0;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #00264d, #004080);
+        }
+
+        .navbar-brand, .nav-link {
+            color: white !important;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: #a2d5f2 !important;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #003366;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .result-item {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
+            background-color: #00796b;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .back-button:hover {
+            background-color: #004d40;
+        }
+
+        canvas {
+            margin-top: 40px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('home') }}">SalesPredict+</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('predict') }}">Prediction</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('profile') }}">My Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container">
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    <h2 class="text-center">Prediction Results</h2>
+
+    <div class="result-item"><strong>State:</strong> {{ state }}</div>
+    <div class="result-item"><strong>District:</strong> {{ district }}</div>
+    <div class="result-item"><strong>Category:</strong> {{ category }}</div>
+    <div class="result-item"><strong>Predicted Quantity Sold:</strong> {{ predicted_quantity }}</div>
+    <div class="result-item"><strong>Unit Price (₹):</strong> ₹{{ predicted_unit_price }}</div>
+    <div class="result-item"><strong>Profit Margin:</strong> {{ predicted_profit_margin }}</div>
+    <div class="result-item"><strong>Profit (₹):</strong> ₹{{ predicted_profit }}</div>
+    <div class="result-item"><strong>Month:</strong> {{ month }}</div>
+    <div class="result-item"><strong>Year:</strong> {{ year }}</div>
+
+
+
+<h3 class="mt-5 mb-3 text-center">Prediction Breakdown (Pie Chart)</h3>
+<canvas id="predictionPieChart" width="100%" height="200"></canvas>
+
+
+
+
+    <a href="{{ url_for('predict') }}" class="back-button">Predict Again</a>
+</div>
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2025 SalesPredict+. All rights reserved.</p>
+</footer>
+
+<script>
+    const ctxPie = document.getElementById('predictionPieChart').getContext('2d');
+
+    const predictionPieChart = new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+            labels: ['Quantity Sold', 'Unit Price (₹)', 'Profit Margin %', 'Profit (₹)'],
+            datasets: [{
+                data: [
+                    parseFloat("{{ predicted_quantity }}"),
+                    parseFloat("{{ predicted_unit_price }}"),
+                    parseFloat("{{ predicted_profit_margin }}") * 100,
+                    parseFloat("{{ predicted_profit }}")
+                ],
+                backgroundColor: [
+                    '#42a5f5',
+                    '#66bb6a',
+                    '#ffca28',
+                    '#ef5350'
+                ],
+                borderColor: '#fff',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Sales Prediction Breakdown',
+                    font: { size: 18 }
+                },
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const value = context.raw.toFixed(2);
+                            return `${context.label}: ${value}`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+
+
+</body>
+</html>
